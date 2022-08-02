@@ -12,6 +12,23 @@ function readTodos() {
     else
         return JSON.parse(todosJSON);
 }
+function saveTodos() {
+    localStorage.setItem("todos", JSON.stringify(todos));
+}
+function createTodo(todo) {
+    const newLi = document.createElement("li");
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = todo.completed;
+    checkbox.addEventListener("change", () => {
+        todo.completed = checkbox.checked;
+        saveTodos();
+    });
+    newLi.append(todo.text);
+    newLi.append(checkbox);
+    list.append(newLi);
+}
+;
 const handleSubmit = (e) => {
     e.preventDefault();
     const newTodo = {
@@ -20,17 +37,6 @@ const handleSubmit = (e) => {
     };
     createTodo(newTodo);
     todos.push(newTodo);
-    localStorage.setItem("todos", JSON.stringify(todos));
     input.value = "";
 };
-function createTodo(todo) {
-    const newLi = document.createElement("li");
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.checked = todo.completed;
-    newLi.append(todo.text);
-    newLi.append(checkbox);
-    list.append(newLi);
-}
-;
 form.addEventListener("submit", handleSubmit);
